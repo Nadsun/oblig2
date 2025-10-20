@@ -1,9 +1,4 @@
-<?php  /* slett-klasse */
-/*
-/*  Programmet lager et skjema for å velge en klasse som skal slettes  
-/*  Programmet sletter den valgte klassen
-*/
-?> 
+<?php  /* slett-klasse */ ?> 
 
 <script src="funksjoner.js"></script>
 
@@ -31,7 +26,6 @@
   <input type="submit" value="Slett klasse" name="slettKlasseKnapp" id="slettKlasseKnapp" /> 
 </form>
 
-<?php
 <?php
 mysqli_report(MYSQLI_REPORT_OFF);
 
