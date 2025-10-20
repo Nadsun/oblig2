@@ -52,7 +52,7 @@ if (isset($_POST["slettKlasseKnapp"])) {
             $sqlSetning = "DELETE FROM klasse WHERE klassekode='$klassekode';";
             mysqli_query($db, $sqlSetning) or die("Ikke mulig å slette data i databasen");
 
-            print("Følgende klasse er nå slettet: <strong>$klassekode</strong><br />");
+            print("Følgende klasse er nå slettet: <strong>$klassenavn</strong><br />");
         }
     }
 }
