@@ -13,6 +13,7 @@
 </form>
 
 <?php 
+mysqli_report(MYSQLI_REPORT_OFF);
   if (isset($_POST ["registrerKlasseKnapp"]))
     {
       $klassekode=$_POST ["klassekode"];

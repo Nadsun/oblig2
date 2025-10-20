@@ -14,6 +14,7 @@
 </form>
 
 <?php 
+mysqli_report(MYSQLI_REPORT_OFF);
   if (isset($_POST ["registrerStudentKnapp"]))
     {
       $brukernavn=$_POST ["brukernavn"];
