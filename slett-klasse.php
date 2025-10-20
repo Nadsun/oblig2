@@ -32,6 +32,7 @@
 </form>
 
 <?php
+<?php
 mysqli_report(MYSQLI_REPORT_OFF);
 
 if (isset($_POST["slettKlasseKnapp"])) {	
@@ -40,19 +41,23 @@ if (isset($_POST["slettKlasseKnapp"])) {
     if (!$klassekode) {
         print("Klassekode må fylles ut");
     } else {
-        include("db-tilkobling.php");
+        include("db-tilkobling.php"); // koble til databasen
 
-        $sqlSetning = "SELECT * FROM klasse WHERE klassekode='$klassekode';";
+        // Hent klassenavn FØR sletting
+        $sqlSetning = "SELECT klassenavn FROM klasse WHERE klassekode='$klassekode';";
         $sqlResultat = mysqli_query($db, $sqlSetning) or die("Ikke mulig å hente data fra databasen");
-        $antallRader = mysqli_num_rows($sqlResultat); 
+        
+        if (mysqli_num_rows($sqlResultat) == 0) {
+            print("Klasse finnes ikke");
+        } else {
+            $rad = mysqli_fetch_assoc($sqlResultat);  // hent rad som assosiativ array
+            $klassenavn = $rad['klassenavn'];        // nå er variabelen definert
 
-        if ($antallRader == 0) {
-            print("Klassekode finnes ikke");
-        } else {	  
-            $sqlSetning = "DELETE FROM klasse WHERE klassekode='$klassekode';";
-            mysqli_query($db, $sqlSetning) or die("Ikke mulig å slette data i databasen");
+            // Slett klassen
+            $sqlSlett = "DELETE FROM klasse WHERE klassekode='$klassekode';";
+            mysqli_query($db, $sqlSlett) or die("Ikke mulig å slette data i databasen");
 
-            print("Følgende klasse er nå slettet: <strong>$klassenavn</strong><br />");
+            print("Følgende klasse er nå slettet: <strong>$klassenavn</strong> ($klassekode)<br />");
         }
     }
 }
