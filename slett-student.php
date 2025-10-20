@@ -9,10 +9,26 @@
 
 <h3>Slett student</h3>
 
-<form method="post" action="" id="slettStudentSkjema" name="slettStudentSkjema" onSubmit="return bekreft()">
-  Brukernavn <select type="text" id="brukernavn" name="brukernavn" required > <br/>
-  <input type="submit" value="Slett student" name="slettStudentKnapp" id="slettStudentKnapp" /> 
-</form>
+Velg student:
+<select name="brukernavn" id="brukernavn" required>
+  <option value="">-- Velg student --</option>
+
+  <?php  
+  include("db-tilkobling.php");  // koble til databasen
+
+  $sqlSetning = "SELECT brukernavn, fornavn, etternavn FROM student ORDER BY etternavn, fornavn;";
+  $sqlResultat = mysqli_query($db, $sqlSetning) or die("Ikke mulig å hente data fra databasen");
+
+  while ($rad = mysqli_fetch_array($sqlResultat)) {
+      $brukernavn = $rad["brukernavn"];
+      $fornavn = $rad["fornavn"];
+      $etternavn = $rad["etternavn"];
+      echo "<option value='$brukernavn'>$fornavn $etternavn ($brukernavn)</option>";
+  }
+  ?>
+</select>
+<br/><br/>
+
 
 <?php
 mysqli_report(MYSQLI_REPORT_OFF);
