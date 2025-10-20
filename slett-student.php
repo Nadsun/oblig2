@@ -44,17 +44,27 @@ if (isset($_POST["slettStudentKnapp"])) {
     } else {
         include("db-tilkobling.php");
 
-        $sqlSetning = "SELECT * FROM student WHERE brukernavn='$brukernavn';";
+        // HENT NAVN FØR SLETTING
+        $sqlSetning = "SELECT fornavn, etternavn FROM student WHERE brukernavn='$brukernavn';";
         $sqlResultat = mysqli_query($db, $sqlSetning) or die("Ikke mulig å hente data fra databasen");
         $antallRader = mysqli_num_rows($sqlResultat); 
 
         if ($antallRader == 0) {
             print("Studenten finnes ikke");
         } else {	  
+            // Hent navnet før vi sletter
+            $rad = mysqli_fetch_array($sqlResultat);
+            $fornavn = $rad["fornavn"];
+            $etternavn = $rad["etternavn"];
+
+            // SLETT STUDENT
             $sqlSetning = "DELETE FROM student WHERE brukernavn='$brukernavn';";
             mysqli_query($db, $sqlSetning) or die("Ikke mulig å slette data i databasen");
-            print("Følgende student er nå slettet: <strong>$fornavn $etternavn ($brukernavn)</strong><br />");
+
+            // VIS MELDING
+            print("Følgende student er nå slettet: <strong>$fornavn $etternavn</strong> ($brukernavn)<br />");
         }
     }
 }
+
 ?>
