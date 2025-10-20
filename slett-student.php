@@ -5,61 +5,56 @@
 */
 ?> 
 
-<script src="funksjoner.js"> </script>
+<script src="funksjoner.js"></script>
 
 <h3>Slett student</h3>
 
-Velg student:
-<select name="brukernavn" id="brukernavn" required>
-  <option value="">-- Velg student --</option>
+<form method="post" action="" id="slettStudentSkjema" name="slettStudentSkjema" onSubmit="return bekreft()">
+  Velg student som skal slettes:
+  <select name="brukernavn" id="brukernavn" required>
+    <option value="">-- Velg student --</option>
 
-  <?php  
-  include("db-tilkobling.php");  // koble til databasen
+    <?php  
+    include("db-tilkobling.php");  // koble til databasen
 
-  $sqlSetning = "SELECT brukernavn, fornavn, etternavn FROM student ORDER BY etternavn, fornavn;";
-  $sqlResultat = mysqli_query($db, $sqlSetning) or die("Ikke mulig å hente data fra databasen");
+    $sqlSetning = "SELECT brukernavn, fornavn, etternavn FROM student ORDER BY etternavn, fornavn;";
+    $sqlResultat = mysqli_query($db, $sqlSetning) or die("Ikke mulig å hente data fra databasen");
 
-  while ($rad = mysqli_fetch_array($sqlResultat)) {
-      $brukernavn = $rad["brukernavn"];
-      $fornavn = $rad["fornavn"];
-      $etternavn = $rad["etternavn"];
-      echo "<option value='$brukernavn'>$fornavn $etternavn ($brukernavn)</option>";
-  }
-  ?>
-</select>
-<br/><br/>
+    while ($rad = mysqli_fetch_array($sqlResultat)) {
+        $brukernavn = $rad["brukernavn"];
+        $fornavn = $rad["fornavn"];
+        $etternavn = $rad["etternavn"];
+        echo "<option value='$brukernavn'>$fornavn $etternavn ($brukernavn)</option>";
+    }
+    ?>
+  </select>
+  <br/><br/>
 
+  <input type="submit" value="Slett student" name="slettStudentKnapp" id="slettStudentKnapp" /> 
+</form>
 
 <?php
 mysqli_report(MYSQLI_REPORT_OFF);
-  if (isset($_POST ["slettStudentKnapp"]))
-    {	
-      $brukernavn=$_POST ["brukernavn"];
+
+if (isset($_POST["slettStudentKnapp"])) {	
+    $brukernavn = $_POST["brukernavn"];
 	  
-	  if (!$brukernavn)
-        {
-          print ("Brukernavn m&aring; fylles ut");
-        }
-      else
-        {
-          include("db-tilkobling.php");  /* tilkobling til database-serveren utført og valg av database foretatt */
+    if (!$brukernavn) {
+        print("Du må velge en student");
+    } else {
+        include("db-tilkobling.php");
 
-          $sqlSetning="SELECT * FROM student WHERE brukernavn='$brukernavn';";
-          $sqlResultat=mysqli_query($db,$sqlSetning) or die ("ikke mulig &aring; hente data fra databasen");
-          $antallRader=mysqli_num_rows($sqlResultat); 
+        $sqlSetning = "SELECT * FROM student WHERE brukernavn='$brukernavn';";
+        $sqlResultat = mysqli_query($db, $sqlSetning) or die("Ikke mulig å hente data fra databasen");
+        $antallRader = mysqli_num_rows($sqlResultat); 
 
-          if ($antallRader==0)  /* studenten er ikke registrert */
-            {
-              print ("Studenten finnes ikke");
-            }
-          else
-            {	  
-              $sqlSetning="DELETE FROM student WHERE brukernavn='$brukernavn';";
-              mysqli_query($db,$sqlSetning) or die ("ikke mulig &aring; slette data i databasen");
-                /* SQL-setning sendt til database-serveren */
-		
-              print ("F&oslash;lgende student er n&aring; slettet: $brukernavn <br />");
-            }
+        if ($antallRader == 0) {
+            print("Studenten finnes ikke");
+        } else {	  
+            $sqlSetning = "DELETE FROM student WHERE brukernavn='$brukernavn';";
+            mysqli_query($db, $sqlSetning) or die("Ikke mulig å slette data i databasen");
+            print("Følgende student er nå slettet: <strong>$brukernavn</strong><br />");
         }
     }
-?> 
+}
+?>
