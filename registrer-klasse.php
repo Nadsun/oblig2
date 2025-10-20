@@ -21,7 +21,7 @@
 
       if (!$klassekode || !$klassenavn || !$studiumkode)
         {
-          print ("B&aring;de studiumkode og klassenavn m&aring; fylles ut");
+          print ("Alle felt my fylles ut, klassekode, klassenavn og studiumkode m&aring; fylles ut");
         }
       else
         {
