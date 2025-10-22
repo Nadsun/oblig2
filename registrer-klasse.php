@@ -22,7 +22,7 @@ mysqli_report(MYSQLI_REPORT_OFF);
 
       if (!$klassekode || !$klassenavn || !$studiumkode)
         {
-          print ("Alle felt my fylles ut, klassekode, klassenavn og studiumkode m&aring; fylles ut");
+          print ("Alle felt m&aring; fylles ut, klassekode, klassenavn og studiumkode m&aring; fylles ut");
         }
       else
         {
